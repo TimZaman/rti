@@ -1,0 +1,699 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"matre",
+				"matReferenceHSV"
+			],
+			[
+				"matP",
+				"matPlacementHSV"
+			],
+			[
+				"wiggle",
+				"wiggleInPlace"
+			],
+			[
+				"normal",
+				"normalMap3c"
+			],
+			[
+				"quad",
+				"quadsize"
+			],
+			[
+				"id_",
+				"id_parents_parent"
+			],
+			[
+				"matT",
+				"matTestSm"
+			],
+			[
+				"lastid",
+				"lastid3"
+			],
+			[
+				"matC",
+				"matCoef_RGB"
+			],
+			[
+				"matN",
+				"matNow_R"
+			],
+			[
+				"mat",
+				"matCoef_B"
+			],
+			[
+				"matCoef",
+				"matCoef_R"
+			],
+			[
+				"m_",
+				"m_uv_inv"
+			],
+			[
+				"matCof",
+				"matCoef_B"
+			],
+			[
+				"vM",
+				"vMatRTI"
+			],
+			[
+				"CV_",
+				"CV_64F"
+			],
+			[
+				"QS",
+				"QStringList"
+			],
+			[
+				"endl",
+				"endlr"
+			],
+			[
+				"selecti",
+				"selectiveRawProcessing"
+			],
+			[
+				"processI",
+				"processInView"
+			],
+			[
+				"Camera",
+				"CameraFile"
+			],
+			[
+				"Camear",
+				"CameraFile"
+			],
+			[
+				"gp",
+				"gp_File_R"
+			],
+			[
+				"gp_",
+				"gp_File_R"
+			],
+			[
+				"g_",
+				"g_gpFile"
+			],
+			[
+				"filename",
+				"filenameInput"
+			],
+			[
+				"hOut",
+				"hOutProfilesRGB"
+			],
+			[
+				"edge",
+				"edgePercentage"
+			],
+			[
+				"check",
+				"checkCropboxEdges"
+			],
+			[
+				"strev",
+				"strEnvIO"
+			],
+			[
+				"strE",
+				"strEnvIO"
+			],
+			[
+				"action",
+				"actionCalibrate"
+			],
+			[
+				"background",
+				"background-repeat"
+			],
+			[
+				"tool",
+				"toolBar"
+			],
+			[
+				"vecP",
+				"vecPROF_OUT_ID"
+			],
+			[
+				"strNum",
+				"strNumDimension"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 7060,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "main.cpp",
+			"settings":
+			{
+				"buffer_size": 2535,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "rti.h",
+			"settings":
+			{
+				"buffer_size": 4515,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "rti.cpp",
+			"settings":
+			{
+				"buffer_size": 42836,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 115.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 408.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/tzaman/Dropbox/code/rti/src/widget.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/widget.h",
+		"/Users/tzaman/Dropbox/code/rti/src/qdarkstyle/style.qss",
+		"/Users/tzaman/Dropbox/code/rti/src/helper.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/GLWidget.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/GLWidget.h",
+		"/Users/tzaman/Dropbox/code/deltae-cli/src/getsvn.cmake",
+		"/Users/tzaman/Dropbox/code/computedt/README.md",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/helper.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/helper.h",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/glwidget.h",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/window.h",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/glwidget.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/widget.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/window.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/GLWidget.h",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/GLWidget.cpp",
+		"/Users/tzaman/Desktop/RAWLOG/20150325_V10_2.3/rti(60pct)_ptm.xmp",
+		"/Users/tzaman/Dropbox/code/collectief/gui/src/featuretester.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/src/scanprocessor.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/utils.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/CMakeLists.txt",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/utils.h",
+		"/Users/tzaman/Dropbox/code/pixel/src/pixel.h",
+		"/Users/tzaman/Dropbox/code/pixel/src/scanprocessor.h",
+		"/Users/tzaman/Dropbox/code/pixel/src/pixel.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/gpWrapper.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/gpWrapper.h",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/setcontrol2.cpp",
+		"/Volumes/MicroSD/RTI/calib_dome/domepos.txt",
+		"/Users/tzaman/Dropbox/code/pixel/src/CMakeLists.txt",
+		"/Users/tzaman/Dropbox/code/pixel/src/scanmanager.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/src/utils.cpp",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/rti.h",
+		"/Users/tzaman/Dropbox/code/TU3D/src/tu3d.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/imagearea.h",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/imagearea.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/pixel.cpp",
+		"/Users/tzaman/Dropbox/code/TU3D/src/tu3d.h",
+		"/Users/tzaman/Dropbox/code/rti/trunk/src/main.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/CMakeLists.txt",
+		"/Users/tzaman/Desktop/otool van libqcococa.txt",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/package/package.pl",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/main.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/qdarkstyle/style.qss",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/databasepusher.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/gp_tim.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/gp_tim.h",
+		"/Users/tzaman/Dropbox/code/TU3D/src/CMakeLists.txt",
+		"/Users/tzaman/Dropbox/code/picturae-dashboard/conf/appconfig.json",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/ConsoleColor.h",
+		"/Users/tzaman/Dropbox/code/deltae-cli-2/trunk/src/deltae_cli.sublime-project",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/target.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/pixel_settings.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/trunk/src/pixel.h",
+		"/C/xampp/htdocs/picturae/getscan.php",
+		"/C/xampp/htdocs/picturae/index.php",
+		"/C/Users/tim/AppData/Local/Temp/Temp1_1611138.zip/TI-OPA350UA@E/Readme.txt",
+		"/C/Users/tim/Dropbox/code/pixel/trunk/src/pixel.h",
+		"/C/Users/tim/Dropbox/code/pixel/trunk/web/index.php",
+		"/C/Users/tim/Dropbox/code/pixel/trunk/src/icons.qrc",
+		"/D/Downloads/Mac OS X 10.8 Mountain Lion ISO Untouched/InstallESD Info.txt",
+		"/C/Users/tim/Desktop/F111224.txt",
+		"/C/Users/tim/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/tim/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 41.0
+	},
+	"find_in_files":
+	{
+		"height": 115.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"wiggleinplace",
+			"doshift",
+			"drop",
+			"jpg",
+			"unow",
+			"goquadrant",
+			"wiggle",
+			"dowiggle",
+			"wiggleinplace",
+			"zeros",
+			"wiggleinplace",
+			"wigglein",
+			"wiggleinplace",
+			"doshift",
+			"wiggleinplace",
+			"tab",
+			"setimage",
+			"gview",
+			"gui",
+			"core",
+			"cpp",
+			".nef",
+			"drop",
+			"utils",
+			"boost",
+			"vector",
+			"tif",
+			"iprocessor",
+			"0.2",
+			"resize",
+			"processfolder",
+			"getexistingdi",
+			"select",
+			"folderselec",
+			"dialog",
+			"folder",
+			"vector",
+			",",
+			"\\n",
+			",",
+			" ",
+			"\\n",
+			",",
+			" ",
+			"\\nx=",
+			"/>",
+			"\"",
+			"46",
+			"currentdate",
+			"current",
+			"return",
+			"button",
+			"pushb",
+			"currentdatetim",
+			"i++",
+			"timersetconnec",
+			"reconnect",
+			"lightidx",
+			"(string)",
+			"shutterdelay",
+			"deleting",
+			"sleep",
+			"\\n\"",
+			"\\r",
+			"\\n",
+			"sleep",
+			"serialwrite",
+			"baud",
+			"lightidx",
+			"write",
+			"lightidx",
+			"gphoto",
+			"serialwrite",
+			"siggpcap",
+			"serialwrite",
+			"gpCams",
+			"pressed",
+			"sigpopup",
+			"warning",
+			"<< randcol",
+			"<< warning",
+			"domkdir",
+			"dir",
+			"<< randcol",
+			"<< warning",
+			"endlr",
+			"g_data_raw",
+			".nef",
+			"gp",
+			"2",
+			"connect",
+			"slotnewgpim",
+			"newgpimage",
+			"gp",
+			"calcdi",
+			"calcsu",
+			"calcdiff",
+			"merge",
+			"calcdiff",
+			"timshow",
+			"getcoefmats",
+			"getcoef",
+			"resize(",
+			"calcs",
+			"timshow",
+			"getcoefmats",
+			"ptr",
+			"timshow",
+			"m_coef",
+			"getv",
+			"resize",
+			"imwritevectorresize",
+			"copymake",
+			"resize(",
+			"0.8",
+			"0.80",
+			"order",
+			"256",
+			"szquad",
+			"256",
+			"sz256",
+			"256",
+			"imwritevec",
+			"imwrite",
+			"imwritevectorresize",
+			"resize(",
+			"0.25",
+			"xml"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			", ",
+			",",
+			", ",
+			"",
+			", ",
+			"",
+			", ",
+			"",
+			"szquad",
+			"32F",
+			"float",
+			",",
+			"",
+			",",
+			"",
+			" ",
+			"  ",
+			"   ",
+			"\\t",
+			", ",
+			"",
+			",",
+			"       ",
+			"rti",
+			"endlr",
+			"cout << RANDCOL <<",
+			"cout << RANDCOL",
+			"",
+			"<< endlr",
+			"<<endlr",
+			"endlr",
+			"queuedFinish(false); //Kill process after previous finished",
+			",",
+			"",
+			",",
+			" "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7060,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4273,
+								4273
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "main.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2535,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								570,
+								570
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1069.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "rti.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4515,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3737,
+								3737
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2125.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "rti.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 42836,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								28600,
+								28600
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 61.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 104.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "RTI.sublime-project",
+	"replace":
+	{
+		"height": 78.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Dropbox/code/deltae-cli/src/deltae_cli.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 400.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 400.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
