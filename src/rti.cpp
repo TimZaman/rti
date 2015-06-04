@@ -62,8 +62,19 @@ MainWindow::MainWindow(std::string m_projectDir, QWidget *parent) : QMainWindow(
 
 
 
+/*
+	Mat im = imread("timshow_map_Z_0.tiff", CV_LOAD_IMAGE_ANYDEPTH);
+	Mat imzm = im.clone();
 
+	for (int x=0; x<im.cols*0.5-2; x++){
+		for (int y=0; y<im.rows*0.5-2; y++){
+			imzm.at<short>(y, x) = im.at<short>(round(y*2)+0, round(x*2)+0);
+		}
+	}
 
+	imwrite("imzm.tif", imzm);
+*/
+	
 
 
 
@@ -173,8 +184,10 @@ MainWindow::MainWindow(std::string m_projectDir, QWidget *parent) : QMainWindow(
 			this->gpCams[0]->set_config_value_string("recordingmedia", "SDRAM");
 			this->gpCams[0]->set_config_value_string("capturetarget", "Internal RAM");
 		//}
+		ui.label->setText("Connected");
 	} else {
 		cout << "error initializing left camera" << endl;
+		ui.label->setText("No Camera?");
 		//emit sigPopup("Hardware connection to the camera.\nPossible solutions:\n Turn it on\n Check cables\n Restart software", Mat());
 		//camConnected[0]=false;
 	}
@@ -182,13 +195,70 @@ MainWindow::MainWindow(std::string m_projectDir, QWidget *parent) : QMainWindow(
 
 
 
+
+	this->imageAreas.push_back(new ImageArea());
+	//ui.gridLayout_5->addWidget(imageAreas[0],0,0);
+	imageAreas[0]->camidx=0;
+
+
 	//testrun();
 
 
 
+    QSurfaceFormat format;
+    format.setDepthBufferSize(24);
+    //QSurfaceFormat::setDefaultFormat(format);
 
-	setMouseTracking(true); // E.g. set in your constructor of your widget.
+    //this->mwindow->setApplicationName("cube");
+    //this->mwindow->setApplicationVersion("0.1");
+    this->mwindow = new MainWidget();
+   	this->mwindow->resize(640, 480);
+   	//this->mwindow->setFormat(format);
+	#ifndef QT_NO_OPENGL
+	    //MainWidget widget;
+	    //this->mwindow->show();
+	    ui.gridLayout_5->addWidget(this->mwindow,0,0);
+	#else
+	    QLabel note("OpenGL Support required");
+	    note.show();
+	#endif
+
+
+
+
+	//setMouseTracking(true); // E.g. set in your constructor of your widget.
+
+/*
+
+   // QGuiApplication app(argc, argv);
+    QSurfaceFormat format;
+    format.setSamples(16);
+    
+    this->window = new TriangleWindow();
+	this->window->setFormat(format);
+	this->window->resize(640, 480);
+	this->window->show();
+
+	this->window->setAnimating(true);
+
+    //return app.exec();
+
+
+	connect(this, SIGNAL(sigTest()), this->window, SLOT(slotTest())); */
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -304,18 +374,31 @@ int MainWindow::goQuadrant(std::vector<cv::Mat> matImages, int id_parent,  Size 
 	return id_parent;
 }
 
-void writeNormalMap(std::vector<cv::Mat> normalMap){
+
+
+
+
+void MainWindow::writeNormalMap(std::vector<cv::Mat> normalMap){
 
 	vector<Mat> normalMap8;
+
+	double min, max;
+
+	cv::minMaxLoc(normalMap[0], &min, &max);
+	cout << "normalMap[0] min=" << min << " max=" << max << endl;
+	cv::minMaxLoc(normalMap[1], &min, &max);
+	cout << "normalMap[1] min=" << min << " max=" << max << endl;
+
+
 	normalMap8.resize(3);
 	//normalMap8[0]= Mat(normalMap[0].size(), CV_8UC1, 1);
 	//normalMap8[1]= Mat(normalMap[0].size(), CV_8UC1, 1);
-	normalMap8[2]= Mat(normalMap[0].size(), CV_8UC1, 1);
+	normalMap8[2]= Mat(normalMap[0].size(), CV_16UC1, 1);
 
-	normalMap8[0] = (normalMap[0]+1.0) * (255.0*0.5);
-	normalMap8[1] = (normalMap[1]+1.0) * (255.0*0.5);
-	normalMap8[0].convertTo(normalMap8[0],CV_8U);
-	normalMap8[1].convertTo(normalMap8[1],CV_8U);
+	normalMap8[0] = (normalMap[0]+1.0) * (65535.0*0.5);
+	normalMap8[1] = (normalMap[1]+1.0) * (65535.0*0.5);
+	normalMap8[0].convertTo(normalMap8[0],CV_16U);
+	normalMap8[1].convertTo(normalMap8[1],CV_16U);
 
 	Mat normalMap3c;
 	cv::merge(normalMap8,normalMap3c);
@@ -529,6 +612,53 @@ cv::Mat MainWindow::wiggleInPlace(const cv::Mat matReference, const cv::Mat matP
 
 
 
+cv::Mat gradientToDepth(cv::Mat Pgrads, cv::Mat Qgrads) {
+
+    cv::Mat P(Pgrads.rows, Pgrads.cols, CV_32FC2, cv::Scalar::all(0));
+    cv::Mat Q(Pgrads.rows, Pgrads.cols, CV_32FC2, cv::Scalar::all(0));
+    cv::Mat Z(Pgrads.rows, Pgrads.cols, CV_32FC2, cv::Scalar::all(0));
+
+    cv::dft(Pgrads, P, cv::DFT_COMPLEX_OUTPUT);
+    cv::dft(Qgrads, Q, cv::DFT_COMPLEX_OUTPUT);
+
+    
+    float mu=1.0;
+    float lambda = 0;
+    for (int x=0; x< Pgrads.rows; x++){
+    	for (int y=0; y< Pgrads.cols; y++){	
+			if ((x != 0) || (y != 0)) {
+				float u  = sin((float)(x*2*M_PI/Pgrads.rows));
+				float v  = sin((float)(y*2*M_PI/Pgrads.cols));
+				float uv = u*u + v*v;
+				float d = (1.0f + lambda)*uv + mu*pow(uv,2);
+				/* offset = (row * numCols * numChannels) + (col * numChannels) + channel */
+				//Z[(i*width*2)+(j*2)+(0)] = ( u*P[(i*width*2)+(j*2)+(1)] + v*Q[(i*width*2)+(j*2)+(1)]) / d; 
+				//Z[(i*width*2)+(j*2)+(1)] = (-u*P[(i*width*2)+(j*2)+(0)] - v*Q[(i*width*2)+(j*2)+(0)]) / d; 
+				Z.at<cv::Vec2f>(x, y)[0] = float( (  u*P.at<cv::Vec2f>(x, y)[1] + v*Q.at<cv::Vec2f>(x, y)[1]) / d);
+				Z.at<cv::Vec2f>(x, y)[1] = float( ( -u*P.at<cv::Vec2f>(x, y)[0] - v*Q.at<cv::Vec2f>(x, y)[0]) / d);
+		    }
+		}
+	}
+
+
+    /* setting unknown average height to zero */
+    Z.at<cv::Vec2f>(0, 0)[0] = 0.0f;
+    Z.at<cv::Vec2f>(0, 0)[1] = 0.0f;
+
+    cv::dft(Z, Z, cv::DFT_INVERSE | cv::DFT_SCALE |  cv::DFT_REAL_OUTPUT);
+
+
+    //TIM START
+    //cv::dft(P, P, cv::DFT_INVERSE | cv::DFT_SCALE |  cv::DFT_REAL_OUTPUT);
+    //return P;
+    //TIM END
+
+
+    return Z;
+}
+
+	
+
 
 
 
@@ -616,8 +746,7 @@ void MainWindow::processFolder(std::string pathfiles, int scale){
 
 		string fname = pathfiles + "/" + filesvector[i];
 
-
-		if (boost::contains(fname, ".nef")){
+		if (boost::contains(boost::filesystem::extension(fname), ".nef")){
 			LibRaw iProcessor;
 			libraw_processed_image_t *image; //Preallocate outside if loop so we can free it later
 
@@ -655,7 +784,7 @@ void MainWindow::processFolder(std::string pathfiles, int scale){
 			iProcessor.recycle();
 			LibRaw::dcraw_clear_mem(image); //Very important to clear the memory
 
-			imsm = image_rawRGB;
+			imsm = image_rawRGB*0.75; //make a bit less brighter
 		} else {
 			imsm = imread(fname);
 		}	
@@ -730,12 +859,40 @@ void MainWindow::processFolder(std::string pathfiles, int scale){
 	vector<Mat> matCoef_G = getCoefMats(vMatRTI_G, m_uv_inv);
 	vector<Mat> matCoef_R = getCoefMats(vMatRTI_R, m_uv_inv);
 
-	/*
+	
 	vector<cv::Mat> normalMap_B = calcSurfaceNormals(matCoef_B);
 	vector<cv::Mat> normalMap_G = calcSurfaceNormals(matCoef_G);
 	vector<cv::Mat> normalMap_R = calcSurfaceNormals(matCoef_R);
 	writeNormalMap(normalMap_B);
 
+	//int igaus = 9;
+	//GaussianBlur( normalMap_B[0], normalMap_B[0], Size( igaus, igaus ), 0, 0 );
+	//GaussianBlur( normalMap_B[1], normalMap_B[1], Size( igaus, igaus ), 0, 0 );
+
+
+	cout << "Starting PhotometricStereo()" << endl;
+
+	Mat depthMap = gradientToDepth(normalMap_B[0], normalMap_B[1]);
+	cout << "End PhotometricStereo()" << endl;
+
+	timshow(depthMap, "map_TZ");
+
+	cout << "Starting PhotometricStereo()" << endl;
+	PhotometricStereo ps(normalMap_B[0].cols, normalMap_B[0].rows, 10);
+	Mat depthMap2 = ps.getGlobalHeights(normalMap_B[0], normalMap_B[1]);
+	cout << "End PhotometricStereo()" << endl;
+
+	timshow(depthMap2, "map_Z");
+
+
+
+	
+
+
+	//timshow
+	//imwrite("depthMap.tiff", depthMap);
+
+/*
 	vector<Mat> matDifMaps;
 	matDifMaps.resize(3);
 	matDifMaps[0] =  calcDiffuseMap(matCoef_B, normalMap_B);
@@ -852,7 +1009,7 @@ void MainWindow::processFolder(std::string pathfiles, int scale){
 		copyMakeBorder(matCoef_RGB[i], matCoef_RGB[i], top, bot, left, right, BORDER_CONSTANT, Scalar(0) );
 		//copyMakeBorder(matCoef_G[i], matCoef_G[i], top, bot, left, right, BORDER_CONSTANT, Scalar(0) );
 		//copyMakeBorder(matCoef_B[i], matCoef_B[i], top, bot, left, right, BORDER_CONSTANT, Scalar(0) );
-		cout << "new size after copyMakeBorder:" << matCoef_RGB[i].size() << endl;
+		//cout << "new size after copyMakeBorder:" << matCoef_RGB[i].size() << endl;
 	}
 
 	imwriteVectorResize(matCoef_RGB, 1, Size(this->quadsize,this->quadsize), 1);
@@ -1029,7 +1186,8 @@ vector<cv::Mat> MainWindow::calcSurfaceNormals(vector<cv::Mat> matCoefMaps){
 
 		float xn = (a2*a4 - 2.0*a1*a3)/denum;
 		float yn = (a2*a3 - 2.0*a0*a4)/denum;
-		float ln = sqrt(xn*xn+yn*yn);//length of vector
+
+		float ln = sqrt(xn*xn + yn*yn);//length of vector
 		xn /= ln;
 		yn /= ln;
 
@@ -1039,8 +1197,8 @@ vector<cv::Mat> MainWindow::calcSurfaceNormals(vector<cv::Mat> matCoefMaps){
 
 	}
 
-	//timshow(normalMap[0]);
-	//timshow(normalMap[1]);
+	timshow(normalMap[0], "norm0");
+	timshow(normalMap[1], "norm1");
 
 	return normalMap;
 }
@@ -1102,7 +1260,7 @@ QImage MainWindow::Mat2QImage(const cv::Mat3b &src) {
 	return dest;
 }
 
-
+/*
 void MainWindow::keyPressEvent(QKeyEvent *event){
 	int key_press;
 	if(event->key() == Qt::Key_Up) {
@@ -1114,8 +1272,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 	} else {
 		QWidget::keyPressEvent(event);
 	}
-}
+}*/
 
+/*
 // Implement in your widget
 void MainWindow::mouseMoveEvent(QMouseEvent *event){
     //qDebug() << event->pos();
@@ -1140,10 +1299,17 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event){
 	this->vnow = y;
 	//on_pushButton_clicked();
 
-}
+}*/
 
 void MainWindow::on_pushButton_2_clicked(){
+	//emit sigTest();
 	cout << "on_pushButton_2_clicked()" << endl;
+
+
+
+
+
+
 
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open directory with images"), "", 
 									     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -1158,7 +1324,7 @@ void MainWindow::on_pushButton_2_clicked(){
 
 	bool ok;
 	int scale = QInputDialog::getInt(this, tr("Computation scale (%)"),
-		tr("Scale [0-100]%:"), 50, 1, 100, 1, &ok);
+		tr("Scale [0-200]%:"), 50, 1, 200, 1, &ok);
 
 	if (ok){
 		processFolder(strSelected, scale);
@@ -1167,18 +1333,93 @@ void MainWindow::on_pushButton_2_clicked(){
 
 }
 
+
+bool doMkDir(string thisDir){
+	if ( !fs::exists( thisDir ) ) {
+		try{
+			return boost::filesystem::create_directory(thisDir);
+		} catch (std::exception& e) {
+			return false;
+		}
+	}
+	return true;
+}
+
 void MainWindow::on_pushButton_clicked(){
 	cout << "on_pushButton_clicked()" << endl;
+/*
+	emit sigTest();
+	return;
+*/
+
+	vector<cv::Mat> matImages;
+	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_1.jpg"));
+	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_2.jpg"));
+	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_3.jpg"));
+	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_4.jpg"));
+	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_5.jpg"));
+	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_6.jpg"));
+
+	vector<double> rti_scales;
+	rti_scales.push_back(1.03421378);
+	rti_scales.push_back(0.953444779);
+	rti_scales.push_back(0.378294528);
+	rti_scales.push_back(0.626534283);
+	rti_scales.push_back(0.7757743);
+	rti_scales.push_back(1.04884148);
+	vector<double> rti_bias;
+	rti_bias.push_back(170);
+	rti_bias.push_back(181);
+	rti_bias.push_back(143);
+	rti_bias.push_back(133);
+	rti_bias.push_back(117);
+	rti_bias.push_back(-5);
+
+
+	//<Size width="1024" height="1024" coefficients="6"/>
+	//<Scale>1.03421378 0.953444779 0.378294528 0.626534283 0.7757743 1.04884148 </Scale>
+	//<Bias>170 181 143 133 117 -5 </Bias>	
+
+	imageAreas[0]->openImage(0, matImages, rti_scales, rti_bias);
+
+	cout << "DEV MODE RETURNING!" << endl;
+	return;
+
+
+
+
 
 	this->lightidx=0;
 
+
+	//Prompt to select target directory
+	QString dirSelect = QFileDialog::getExistingDirectory(this, tr("Open Directory"), "/Users/tzaman/Desktop/", 
+										     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+	bool okInputText;
+	QInputDialog* inputDialog = new QInputDialog();
+	inputDialog->setOptions(QInputDialog::NoButtons);
+
+	//Prompt to type in book id
+	QString text =  inputDialog->getText(NULL ,"Name", "Name:", QLineEdit::Normal, "noname", &okInputText);
+
+	string dirname = QDateTime::currentDateTime().toString("yyyyMMdd").toStdString() + "_" + text.toStdString();
+	string fulldir = dirSelect.toStdString() + "/" + dirname + "/";
+
+	doMkDir(fulldir);
+
+	QString qstrNumLeds = QString::fromStdString(boost::str(boost::format("%03d") % numleds));
 
 	for (int i=0;i<numleds;i++){
 		string cmd = "$$," + boost::lexical_cast<std::string>(this->lightidx) + "\n";
 		this->setControlUnit->serialWrite((string)cmd); //next LED plz
 		
+		QString txt = QString::fromStdString(boost::str(boost::format("%03d") % this->lightidx)) + "/" + qstrNumLeds;
 
-		string fname = "/Users/tzaman/Desktop/RAWLOG/"+ QDateTime::currentDateTime().toString("yyyyMMdd_hh-mm-ss.zzz").toStdString() + "_" + boost::str(boost::format("%03d") % this->lightidx)+".nef";
+		ui.label->setText(txt);
+
+		//string fname = "/Users/tzaman/Desktop/RAWLOG/"+ QDateTime::currentDateTime().toString("yyyyMMdd_hh-mm-ss.zzz").toStdString() + "_" + boost::str(boost::format("%03d") % this->lightidx)+".nef";
+		string fname = fulldir + boost::str(boost::format("%03d") % this->lightidx)+".nef";
 		gpCams[0]->slotCamCapture(0,fname);
 
 		//Iternate to next LED
@@ -1187,6 +1428,8 @@ void MainWindow::on_pushButton_clicked(){
 		QApplication::processEvents();
 		//sleep(4);
 	}
+
+	ui.label->setText("Ready");
 
 	
 	
@@ -1253,40 +1496,31 @@ void MainWindow::setImage(cv::Mat matImage, int i){
 	//gView[i]->setStyleSheet("background: transparent");
 }
 
-void MainWindow::timshow(cv::Mat matImage){
-	Mat timSave;
-	if (matImage.channels()==1){
-		matImage.convertTo(matImage, CV_32FC1);
+void MainWindow::timshow(cv::Mat matImage,  std::string description){
+
+	vector<Mat> planesRef;
+	split( matImage, planesRef );
+
+	//namedWindow("timshow()", cv::WINDOW_NORMAL);  
+
+	for (int i=0; i< planesRef.size(); i++){
+		Mat planeNow, timSave;
+		planesRef[i].convertTo(planeNow, CV_32FC1);
 
 		double minVal, maxVal; 
 		int minIdx, maxIdx;
-		minMaxIdx(matImage, &minVal, &maxVal, &minIdx, &maxIdx);
+		minMaxIdx(planeNow, &minVal, &maxVal, &minIdx, &maxIdx);
 
-		timSave = ((matImage-minVal)*1.0/(maxVal-minVal));
+		timSave = ((planeNow-minVal)*1.0/(maxVal-minVal));
 		timSave.convertTo(timSave, CV_16UC1,65535.0);
-	} else {
-		timSave=matImage;
+		imwrite("timshow_" + description + "_" +boost::lexical_cast<std::string>(i)+".tiff", timSave);
+	
+		//imshow("timshow()", timSave);
+		//waitKey(0);
 	}
-
-	imwrite("tim.tiff", timSave);
-
-	namedWindow("tim", cv::WINDOW_NORMAL);  
-	imshow("tim", timSave);
-	waitKey(0);
-
 
 }
 
-bool doMkDir(string thisDir){
-	if ( !fs::exists( thisDir ) ) {
-		try{
-			return boost::filesystem::create_directory(thisDir);
-		} catch (std::exception& e) {
-			return false;
-		}
-	}
-	return true;
-}
 
 void MainWindow::slotNewGPImage(CameraFile * g_gpFile, int filetype, int camidx){ //New image received from GPhoto
 	cout << "slotNewGPImage(..," << filetype << "," << camidx << ")" << endl;
@@ -1316,7 +1550,6 @@ void MainWindow::slotSetIsReady(bool isok){
 void MainWindow::slotSetIsConnected(bool isconnected){
 	cout << "slotSetIsConnected(" << isconnected << ")" << endl;
 }
-
 
 
 

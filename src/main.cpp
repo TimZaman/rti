@@ -16,7 +16,7 @@
 #include <QtGui>
 #include "rti.h"
 
-#include "window.h"
+
 
 
 #include <iostream>
@@ -29,20 +29,7 @@ namespace fs = boost::filesystem;
 //int main (int argc, char *argv[]) {
 int main (int argc, char ** argv) {
 
-/*
-	//// TEST
-	QApplication app(argc, argv);
 
-	//QSurfaceFormat fmt;
-	//fmt.setSamples(4);
-	//QSurfaceFormat::setDefaultFormat(fmt);
-
-	Window window;
-	window.show();
-	return app.exec();
-	//// TEST
-
-*/
 
 
 
@@ -81,6 +68,7 @@ int main (int argc, char ** argv) {
 		app.setAttribute(Qt::AA_UseHighDpiPixmaps);
 	#endif
 
+		/*
 	QFile f(":qdarkstyle/style.qss");
 	if (!f.exists()){
 	    cout << "Unable to set stylesheet, file not found" << endl;
@@ -90,7 +78,7 @@ int main (int argc, char ** argv) {
 		QTextStream ts(&f);
 		//QApplication::instance()->setStyleSheet(ts.readAll());
 		app.setStyleSheet(ts.readAll());
-	}
+	}*/
 
 	//app.setStyleSheet("QLineEdit { background-color: yellow }");
 

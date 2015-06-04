@@ -33,7 +33,11 @@
 #include <QInputDialog>
 #include <QFileSystemModel>
 #include <QGraphicsView>
-#include <QtOpenGL>
+
+#include <QtGui/QGuiApplication>
+#include <QtGui/QMatrix4x4>
+#include <QtGui/QOpenGLShaderProgram>
+#include <QtGui/QScreen>
 
 
 //#include <QtSql>
@@ -96,11 +100,16 @@
 #include "gpWrapper.h"
 #include "setcontrol2.h"
 
+#include "photometricstereo.h"
 
 
 #include <gphoto2/gphoto2-camera.h> //libgphoto2-2-dev libusb-dev
 
+#include "imagearea.h"
 
+#include "mainwidget.h"
+
+#include "trianglewindow.h"
 
 Q_DECLARE_METATYPE(cv::Mat)
 
@@ -114,8 +123,15 @@ class MainWindow : public QMainWindow{
 		void processFolder(std::string, int);
 		int lightidx;
 		int numleds;
+
+		//TriangleWindow * window;
+		MainWidget * mwindow;
+
 	private:
 		Ui::MainWindow ui;
+
+
+		std::vector<ImageArea *> imageAreas;
 
 		//Cameras
 		QThread * camthreads[1];
@@ -149,7 +165,7 @@ class MainWindow : public QMainWindow{
 
 		void setImage(cv::Mat matImage, int i);
 		QImage Mat2QImage(const cv::Mat3b &src);
-		void timshow(cv::Mat matImage);
+		void timshow(cv::Mat matImage, std::string description);
 
 		void makeWebRTI(std::vector<cv::Mat> matCoef_R, std::vector<cv::Mat> matCoef_G,std::vector<cv::Mat> matCoef_B, float scales[6], int biases[6]);
 
@@ -158,14 +174,20 @@ class MainWindow : public QMainWindow{
 		cv::Mat doShift(cv::Mat frame, int x, int y);
 		cv::Mat wiggleInPlace(const cv::Mat matReference, const cv::Mat matPlacement, int maxpx);
 
+		void writeNormalMap(std::vector<cv::Mat> normalMap);
+
 	protected:
 		void dropEvent(QDropEvent *de);
 		void dragEnterEvent(QDragEnterEvent *e);
+
+	   // void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+	   // void mouseReleaseEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+
 	public slots:
 		void on_pushButton_clicked();
 		void on_pushButton_2_clicked();
-		void mouseMoveEvent(QMouseEvent *event);
-		void keyPressEvent(QKeyEvent *event);
+		//void mouseMoveEvent(QMouseEvent *event);
+		//void keyPressEvent(QKeyEvent *event);
 
 		//GPhoto related
 		void slotNewGPImage(CameraFile *, int, int); //New image received from GPhoto
@@ -174,7 +196,9 @@ class MainWindow : public QMainWindow{
 		void slotSetIsConnected(bool);
 
 
+
 	signals:
+		void sigTest();
 		//GPhoto
 		void sigGPcapture(int);
 		void sigGPcapturePreview(int);
@@ -184,7 +208,6 @@ class MainWindow : public QMainWindow{
 		void sigSetContinue(); //Sends '1' to set
 
 };
-
 
 
 

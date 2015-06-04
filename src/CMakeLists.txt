@@ -36,13 +36,14 @@
 # (c) Tim Zaman, Pixelprimsa.
 #
 
-
-cmake_minimum_required(VERSION 2.8)
 project( rti )
 
+cmake_minimum_required(VERSION 3.0)
 
 #add_definitions("-Wall")
 MESSAGE( STATUS "CMAKE_SYSTEM_VERSION: " ${CMAKE_SYSTEM_VERSION} " ON SYSTEM " ${CMAKE_SYSTEM_NAME} )
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")	
 
 # Else it won't find macports stuff
 SET(CMAKE_PREFIX_PATH "/opt/local/lib/cmake" ${CMAKE_PREFIX_PATH})
@@ -62,7 +63,14 @@ set(LIBRAW_MIN_VERSION 0.16)
 
 INCLUDE_DIRECTORIES(${LIBRAW_INCLUDE_DIR})
 
+if(POLICY CMP0043) #No idea what does does but supresses warnings bonanza
+   cmake_policy(SET CMP0043 OLD)
+endif()
 
+FIND_PACKAGE(OPENCL REQUIRED)
+
+# ignore deprecated OpenCL 1.1 headers warning
+ADD_DEFINITIONS(-DCL_USE_DEPRECATED_OPENCL_1_1_APIS)
 
 #libboost
 set(Boost_USE_STATIC_LIBS OFF) 
@@ -84,9 +92,9 @@ include_directories(${Boost_INCLUDE_DIRS})
 	add_definitions(${Qt5Widgets_DEFINITIONS})
 	set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 	QT5_WRAP_UI( DESKTOP_APP_UI_HDRS ./rti_mainwindow.ui )
-	QT5_WRAP_CPP( MOC_SRCS ${MOC_HDRS} ${UI_HDRS} rti.h glwidget.h window.h widget.h  OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED )
+	QT5_WRAP_CPP( MOC_SRCS ${MOC_HDRS} ${UI_HDRS} rti.h photometricstereo.h trianglewindow.h openglwindow.h mainwidget.h geometryengine.h imagearea.h OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED )
 	#file (GLOB Resources ./qdarkstyle/style.qrc) 
-	file (GLOB Resources ./icons.qrc ./qdarkstyle/style.qrc) 
+	file (GLOB Resources ./shaders.qrc ./textures.qrc ./icons.qrc ./qdarkstyle/style.qrc) 
 	QT5_ADD_RESOURCES (ResourceSources ${Resources}) 
 	INCLUDE_DIRECTORIES( ${CMAKE_BINARY_DIR} . )
 
@@ -139,15 +147,15 @@ endif()
 
 
 # Add an executable compiled from .cpp
-add_executable( rti main.cpp rti.cpp setcontrol2.cpp gpWrapper.cpp utils.cpp window.cpp glwidget.cpp helper.cpp widget.cpp ${DESKTOP_APP_UI_HDRS} ${ResourceSources} )#${CMAKE_CURRENT_BINARY_DIR}/svnversion.h)
+add_executable( rti main.cpp rti.cpp setcontrol2.cpp gpWrapper.cpp utils.cpp photometricstereo.cpp mainwidget.cpp geometryengine.cpp oclutils.cpp trianglewindow.cpp openglwindow.cpp imagearea.cpp ${DESKTOP_APP_UI_HDRS} ${ResourceSources} )#${CMAKE_CURRENT_BINARY_DIR}/svnversion.h)
 
 
-qt5_use_modules(rti Widgets OpenGL Qml Quick PrintSupport )
+qt5_use_modules(rti Widgets Gui OpenGL Core  PrintSupport )
 
 
 
 # Link the target to the libraries
-target_link_libraries( rti ${CMAKE_THREAD_LIBS_INIT} ${TIFF_LIBS} ${Boost_LIBRARIES} ${GPHOTO_LIBS} ${IMAGING_LIBS} ${OpenCV_LIBS} ${LIBRAW_LIBRARIES}  ${QT_LIBRARIES})
+target_link_libraries( rti ${CMAKE_THREAD_LIBS_INIT}  ${OPENCL_LIBRARIES} ${TIFF_LIBS} ${Boost_LIBRARIES} ${GPHOTO_LIBS} ${IMAGING_LIBS} ${OpenCV_LIBS} ${LIBRAW_LIBRARIES}  ${QT_LIBRARIES})
 
 
 
