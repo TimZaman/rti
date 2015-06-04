@@ -169,6 +169,8 @@ class MainWindow : public QMainWindow{
 
 		void makeWebRTI(std::vector<cv::Mat> matCoef_R, std::vector<cv::Mat> matCoef_G,std::vector<cv::Mat> matCoef_B, float scales[6], int biases[6]);
 
+		cv::Mat gradientToDepth_FC(cv::Mat dzdy, cv::Mat dzdx);
+		cv::Mat gradientToDepth_WEI(cv::Mat Pgrads, cv::Mat Qgrads);
 
 
 		cv::Mat doShift(cv::Mat frame, int x, int y);

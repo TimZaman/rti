@@ -156,18 +156,10 @@
 	"buffers":
 	[
 		{
-			"file": "CMakeLists.txt",
-			"settings":
-			{
-				"buffer_size": 7390,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "rti.h",
 			"settings":
 			{
-				"buffer_size": 4747,
+				"buffer_size": 5173,
 				"line_ending": "Unix"
 			}
 		},
@@ -175,15 +167,7 @@
 			"file": "rti.cpp",
 			"settings":
 			{
-				"buffer_size": 48743,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "imagearea.h",
-			"settings":
-			{
-				"buffer_size": 3487,
+				"buffer_size": 53296,
 				"line_ending": "Unix"
 			}
 		},
@@ -196,10 +180,34 @@
 			}
 		},
 		{
-			"file": "/Users/tzaman/Dropbox/code/pixel/src/pixel.cpp",
+			"file": "mainwidget.h",
 			"settings":
 			{
-				"buffer_size": 210886,
+				"buffer_size": 1702,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "mainwidget.cpp",
+			"settings":
+			{
+				"buffer_size": 8773,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "fshader.glsl",
+			"settings":
+			{
+				"buffer_size": 1092,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "vshader.glsl",
+			"settings":
+			{
+				"buffer_size": 737,
 				"line_ending": "Unix"
 			}
 		}
@@ -241,18 +249,33 @@
 	},
 	"file_history":
 	[
+		"/Users/tzaman/Dropbox/code/rti/src/rti (Tim’s MacBook Pro's conflicted copy 2015-06-04).cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/geometryengine.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/src/imagearea.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/geometryengine.h",
+		"/Users/tzaman/Dropbox/code/rti/src/CMakeLists.txt",
+		"/Users/tzaman/Dropbox/code/rti/src/mainwidget.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/textures.qrc",
+		"/Users/tzaman/Dropbox/code/pixel/src/barcode_detector.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/shaders.qrc",
+		"/Users/tzaman/Dropbox/code/rti/src/rti.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/vshader.glsl",
+		"/Users/tzaman/Dropbox/code/rti/src/fshader.glsl",
+		"/Users/tzaman/Dropbox/code/rti/src/trianglewindow.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/trianglewindow.h",
+		"/Users/tzaman/Dropbox/code/rti/src/main.cpp",
+		"/Users/tzaman/Dropbox/code/rti/src/mainwidget.h",
+		"/Users/tzaman/Dropbox/code/rti/src/imagearea.h",
+		"/Users/tzaman/Dropbox/code/rti/src/imagearea.cpp",
+		"/Users/tzaman/Dropbox/code/pixel/src/pixel.cpp",
 		"/Users/tzaman/Dropbox/code/rti/doc/test/info.xml",
 		"/Users/tzaman/Dropbox/code/rti/src/openglwindow.cpp",
 		"/Users/tzaman/Dropbox/code/rti/src/openglwindow.h",
-		"/Users/tzaman/Dropbox/code/rti/src/trianglewindow.cpp",
-		"/Users/tzaman/Dropbox/code/rti/src/trianglewindow.h",
-		"/Users/tzaman/Dropbox/code/pixel/src/imagearea.cpp",
 		"/Users/tzaman/Dropbox/code/rti/src/ps.cl",
 		"/Users/tzaman/Dropbox/code/rti/src/photometricstereo.cpp",
 		"/Users/tzaman/Dropbox/code/rti/src/photometricstereo.h",
 		"/Users/tzaman/Desktop/normal_map_computing_using_ptm_v1_00.jar",
 		"/Users/tzaman/Dropbox/code/rti/src/config.h",
-		"/Users/tzaman/Dropbox/code/rti/src/main.cpp",
 		"/Users/tzaman/Dropbox/code/rti/src/widget.cpp",
 		"/Users/tzaman/Dropbox/code/rti/src/widget.h",
 		"/Users/tzaman/Dropbox/code/rti/src/qdarkstyle/style.qss",
@@ -278,7 +301,6 @@
 		"/Users/tzaman/Dropbox/code/rti/trunk/src/utils.h",
 		"/Users/tzaman/Dropbox/code/pixel/src/pixel.h",
 		"/Users/tzaman/Dropbox/code/pixel/src/scanprocessor.h",
-		"/Users/tzaman/Dropbox/code/pixel/src/pixel.cpp",
 		"/Users/tzaman/Dropbox/code/rti/trunk/src/gpWrapper.cpp",
 		"/Users/tzaman/Dropbox/code/rti/trunk/src/gpWrapper.h",
 		"/Users/tzaman/Dropbox/code/rti/trunk/src/setcontrol2.cpp",
@@ -335,6 +357,28 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"_wei",
+			"rotation",
+			"mouse",
+			"on_",
+			"resize",
+			"biases",
+			"updatertiview",
+			"*0.5",
+			"program",
+			"bind",
+			"texture",
+			"cube",
+			"texture",
+			"tex",
+			"\\n\"",
+			"geometries",
+			"geome",
+			"perspective",
+			"update",
+			"trianglewind",
+			"gui",
+			"core",
 			"updatertiv",
 			"rti_",
 			"cv_",
@@ -440,29 +484,7 @@
 			"gview",
 			"gui",
 			"core",
-			"cpp",
-			".nef",
-			"drop",
-			"utils",
-			"boost",
-			"vector",
-			"tif",
-			"iprocessor",
-			"0.2",
-			"resize",
-			"processfolder",
-			"getexistingdi",
-			"select",
-			"folderselec",
-			"dialog",
-			"folder",
-			"vector",
-			",",
-			"\\n",
-			",",
-			" ",
-			"\\n",
-			","
+			"cpp"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -470,6 +492,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"",
 			", ",
 			",",
 			", ",
@@ -516,53 +539,24 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "CMakeLists.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7390,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4576,
-								4576
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "rti.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4747,
+						"buffer_size": 5173,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2466,
-								2466
+								4020,
+								4020
 							]
 						],
 						"settings":
@@ -570,28 +564,28 @@
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": -0.0,
+						"translation.y": 2304.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "rti.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 48743,
+						"buffer_size": 53296,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								30221,
-								30178
+								12096,
+								12096
 							]
 						],
 						"settings":
@@ -599,44 +593,15 @@
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 14955.0,
+						"translation.x": -0.0,
+						"translation.y": 6056.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "imagearea.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3487,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1650,
-								1660
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 423.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
+					"buffer": 2,
 					"file": "imagearea.cpp",
 					"semi_transient": false,
 					"settings":
@@ -648,8 +613,8 @@
 						"selection":
 						[
 							[
-								31748,
-								31748
+								31936,
+								31946
 							]
 						],
 						"settings":
@@ -658,38 +623,126 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 16938.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "/Users/tzaman/Dropbox/code/pixel/src/pixel.cpp",
+					"buffer": 3,
+					"file": "mainwidget.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 210886,
+						"buffer_size": 1702,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								138801,
-								138801
+								1406,
+								1416
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C++.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 555.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "mainwidget.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8773,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7319,
+								7319
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4354.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "fshader.glsl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1092,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1043,
+								1043
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "vshader.glsl",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 737,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								231,
+								231
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]

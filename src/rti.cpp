@@ -385,9 +385,9 @@ void MainWindow::writeNormalMap(std::vector<cv::Mat> normalMap){
 	double min, max;
 
 	cv::minMaxLoc(normalMap[0], &min, &max);
-	cout << "normalMap[0] min=" << min << " max=" << max << endl;
+	//cout << "normalMap[0] min=" << min << " max=" << max << endl;
 	cv::minMaxLoc(normalMap[1], &min, &max);
-	cout << "normalMap[1] min=" << min << " max=" << max << endl;
+	//cout << "normalMap[1] min=" << min << " max=" << max << endl;
 
 
 	normalMap8.resize(3);
@@ -610,9 +610,125 @@ cv::Mat MainWindow::wiggleInPlace(const cv::Mat matReference, const cv::Mat matP
 
 
 
+cv::Mat MainWindow::gradientToDepth_FC(cv::Mat dzdy, cv::Mat dzdx) {
+
+	//TODO: test dzdx.size==dzdy.size
+
+	//Set up a mesh(grid) spanning from -0.5 to +0.5
+	//cv::Mat wx(1, dzdx.cols, CV_32FC1, cv::Scalar::all(0)); //Horizontal from -0.5 to +0.5
+    //cv::Mat wy(dzdy.rows, 1, CV_32FC1, cv::Scalar::all(0)); //Vertical from -0.5 to +0.5
+
+/*
+    float dwx = 1.0/wx.cols;
+	for (int i=0; i<wx.cols; i++){
+		wx.at<float>(i) = -0.5 + dwx*i;
+	}
+	//Now replicate this horizontal row, vertically 
+	cv::repeat(wx, dzdx.rows, 1, wx);
+
+	float dwy = 1.0/wy.rows;
+	for (int i=0; i<wy.rows; i++){
+		wy.at<float>(i) = -0.5 + dwy*i;
+	}
+	//Now replicate this vertical row, horizontally 
+	cv::repeat(wy, 1, dzdy.cols, wy);
+
+	cout << "wx size=" << wx.size() << endl;
+	cout << "wy size=" << wy.size() << endl;*/
 
 
-cv::Mat gradientToDepth(cv::Mat Pgrads, cv::Mat Qgrads) {
+
+
+	//Quadrant shift to put zero frequency at the appropriate edge
+	//Now construct wxi and wxi, (ifftshift)
+	//wxi: horizontal from 0:0.5:-0.5:0
+	//wxi: vertical from 0:0.5:-0.5:0
+
+	cv::Mat wxi(1, dzdx.cols, CV_32FC1, cv::Scalar::all(0)); //Horizontal from -0.5 to +0.5
+	cv::Mat wyi(dzdy.rows, 1, CV_32FC1, cv::Scalar::all(0)); //Vertical from -0.5 to +0.5
+
+    float dwx = 1.0/wxi.cols;
+	for (int i=0; i<wxi.cols; i++){
+		if (i < wxi.cols*0.5){
+			wxi.at<float>(i) = 0.0 + dwx*i;	
+		} else {
+			wxi.at<float>(i) = -1 + dwx*i;	
+		}
+	}
+	//Now replicate this horizontal row, vertically 
+	cv::repeat(wxi, dzdx.rows, 1, wxi);
+
+	float dwy = 1.0/wyi.rows;
+	for (int i=0; i<wyi.rows; i++){
+		if (i < wyi.rows*0.5){
+			wyi.at<float>(i) = 0.0 + dwy*i;	
+		} else {
+			wyi.at<float>(i) = -1 + dwy*i;	
+		}
+	}
+	//Now replicate this vertical row, horizontally 
+	cv::repeat(wyi, 1, dzdy.cols, wyi);
+
+	//cout << "wxi size=" << wxi.size() << endl;
+	//cout << "wyi size=" << wyi.size() << endl;
+	//timshow(wxi, "wxi");
+	//timshow(wyi, "wyi");
+ 
+
+	//Perform DFT
+	cv::Mat fdzdx(dzdx.rows, dzdx.cols, CV_32FC2, cv::Scalar::all(0));
+    cv::Mat fdzdy(dzdy.rows, dzdy.cols, CV_32FC2, cv::Scalar::all(0));
+	cv::dft(dzdx, fdzdx, cv::DFT_COMPLEX_OUTPUT);
+    cv::dft(dzdy, fdzdy, cv::DFT_COMPLEX_OUTPUT);
+
+
+
+	// Integrate in the frequency domain by phase shifting by pi/2 and
+	// weighting the Fourier coefficients by their frequencies in x and y and
+	// then dividing by the squared frequency.  eps is added to the
+	// denominator to avoid division by 0.
+
+    //In Matlab, -j swaps the two dft channels
+
+	//cv::Mat Z = (-j*wxi.*fdzdx -j*wyi.*fdzdy)./(cv::pow(wxi,2) + cv::pow(wyi,2) + FLT_EPSILON); // FC:Equation [21]
+
+	vector<Mat> fdzdx_planes;
+	split( fdzdx, fdzdx_planes );
+
+	vector<Mat> fdzdy_planes;
+	split( fdzdy, fdzdy_planes );
+
+
+	cv::Mat Z(dzdy.rows, dzdx.cols, CV_32FC2, cv::Scalar::all(0)); //Vertical from -0.5 to +0.5
+	vector<Mat> Z_planes;
+	split( Z, Z_planes );
+
+    //cv::Mat Z = (-wxi.mul(fdzdx) - wyi.mul(fdzdy)) /(cv::pow(wxi,2) + cv::pow(wyi,2) + FLT_EPSILON); // FC:Equation [21]
+
+	cv::Mat denum(wxi.rows, wxi.cols, CV_32FC1, cv::Scalar::all(0)); //Denumerator preallocation
+	denum = wxi.mul(wxi) + wyi.mul(wyi) + FLT_EPSILON;
+
+	Z_planes[0] = (-wxi.mul(fdzdx_planes[1]) - wyi.mul(fdzdy_planes[1])) / denum; // FC:Equation [21]
+	Z_planes[1] = (-wxi.mul(fdzdx_planes[0]) - wyi.mul(fdzdy_planes[0])) / denum; // FC:Equation [21]
+
+
+	//z = real(ifft2(Z)); //Depth reconstruction
+
+	//Merge back
+	cv::merge(Z_planes, Z);
+
+	//Set unknown average height to 0
+	Z.at<cv::Vec2f>(0, 0)[0] = 0.0f;
+	Z.at<cv::Vec2f>(0, 0)[1] = 0.0f;
+
+	//cv::Mat Z;
+	cv::dft(Z, Z, cv::DFT_INVERSE | cv::DFT_SCALE |  cv::DFT_REAL_OUTPUT);
+
+	return Z;
+};
+
+
+cv::Mat MainWindow::gradientToDepth_WEI(cv::Mat Pgrads, cv::Mat Qgrads) {
 
     cv::Mat P(Pgrads.rows, Pgrads.cols, CV_32FC2, cv::Scalar::all(0));
     cv::Mat Q(Pgrads.rows, Pgrads.cols, CV_32FC2, cv::Scalar::all(0));
@@ -871,11 +987,14 @@ void MainWindow::processFolder(std::string pathfiles, int scale){
 
 
 	cout << "Starting PhotometricStereo()" << endl;
-
-	Mat depthMap = gradientToDepth(normalMap_B[0], normalMap_B[1]);
+	Mat depthMapFC = gradientToDepth_FC(normalMap_B[0], normalMap_B[1]);
 	cout << "End PhotometricStereo()" << endl;
+	timshow(depthMapFC, "map_FC");
 
-	timshow(depthMap, "map_TZ");
+	cout << "Starting PhotometricStereo()" << endl;
+	Mat depthMap = gradientToDepth_WEI(normalMap_B[0], normalMap_B[1]);
+	cout << "End PhotometricStereo()" << endl;
+	timshow(depthMap, "map_WEI");
 
 	cout << "Starting PhotometricStereo()" << endl;
 	PhotometricStereo ps(normalMap_B[0].cols, normalMap_B[0].rows, 10);
@@ -929,6 +1048,11 @@ void MainWindow::processFolder(std::string pathfiles, int scale){
 		matCoef_R[i].convertTo(matCoef_R[i],CV_8U);
 		matCoef_G[i].convertTo(matCoef_G[i],CV_8U);
 		matCoef_B[i].convertTo(matCoef_B[i],CV_8U);
+
+		//Save stuff imwrite	
+		timshow(matCoef_R[i], "coefmats_R_" + boost::lexical_cast<std::string>(i));
+		timshow(matCoef_G[i], "coefmats_G_" + boost::lexical_cast<std::string>(i));
+		timshow(matCoef_B[i], "coefmats_B_" + boost::lexical_cast<std::string>(i));
 	}
 
 
