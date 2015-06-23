@@ -53,7 +53,8 @@ void MainWidget::wheelEvent(QWheelEvent *e){
         //qDebug() << e->delta();
         //scaleRatio +=
         projection.ortho(-1.0f/scaleRatio, 1.0f/scaleRatio, -1.0f/scaleRatio, 1.0f/scaleRatio, -1.0f, 1.0f);
-        updateGL();
+        //updateGL();
+        update();
     }
 
 
@@ -108,7 +109,7 @@ void MainWidget::mouseMoveEvent(QMouseEvent *e){
     qDebug() << "rti xy=" << rti_x << "," << rti_y;
 
     update();
-    updateGL();
+    //updateGL();
 }
 
 void MainWidget::timerEvent(QTimerEvent *)
@@ -128,7 +129,7 @@ void MainWidget::timerEvent(QTimerEvent *)
 
         // Request an update
         update();
-        updateGL();
+        //updateGL();
     }
 }
 
@@ -265,7 +266,7 @@ void MainWidget::resizeGL(int w, int h)
 
     //projection.perspective(fov, aspect, zNear, zFar);
 
-
+    //updateGL();
 }
 
 /*

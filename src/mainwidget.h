@@ -7,7 +7,8 @@
 
 //#include <QtGui/qopengl.h>
 //#include <QOpenGlWidget_p>
-#include <5.3.2/QtWidgets/private/qopenglwidget_p.h>
+//#include <5.3.2/QtWidgets/private/qopenglwidget_p.h>
+#include <qopenglwidget.h>
 #include <QtGui/qpaintdevice.h>
 #include <QtGui/qcolor.h>
 #include <QtCore/qnamespace.h>

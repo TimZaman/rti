@@ -197,7 +197,7 @@ MainWindow::MainWindow(std::string m_projectDir, QWidget *parent) : QMainWindow(
 
 
 	this->imageAreas.push_back(new ImageArea());
-	//ui.gridLayout_5->addWidget(imageAreas[0],0,0);
+	ui.gridLayout_5->addWidget(imageAreas[0],0,0);
 	imageAreas[0]->camidx=0;
 
 
@@ -212,12 +212,12 @@ MainWindow::MainWindow(std::string m_projectDir, QWidget *parent) : QMainWindow(
     //this->mwindow->setApplicationName("cube");
     //this->mwindow->setApplicationVersion("0.1");
     this->mwindow = new MainWidget();
-   	this->mwindow->resize(640, 480);
+   	//this->mwindow->resize(640, 480);
    	//this->mwindow->setFormat(format);
 	#ifndef QT_NO_OPENGL
 	    //MainWidget widget;
 	    //this->mwindow->show();
-	    ui.gridLayout_5->addWidget(this->mwindow,0,0);
+	    ui.gridLayout_5->addWidget(this->mwindow,0,1);
 	#else
 	    QLabel note("OpenGL Support required");
 	    note.show();
@@ -452,13 +452,38 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *e){
 void MainWindow::dropEvent(QDropEvent *event){
 	cout << "dropEvent()" << endl;
 	QList<QUrl> urls = event->mimeData()->urls();
-	QString fName = urls.first().toLocalFile();
+	//QString fName = urls.first().toLocalFile();
 	if (urls.isEmpty()) return;
-	if (fName.isEmpty()) return;
-	std::string fileName = fName.toStdString();
-	std::string fileExt = boost::filesystem::extension(fileName) ;
-	cout << "Found file " << fileName  << " ext=" << fileExt << endl;
+	//if (fName.isEmpty()) return;
+	//std::string fileName = fName.toStdString();
+	//std::string fileExt = boost::filesystem::extension(fileName) ;
+	//cout << "Found file " << fileName  << " ext=" << fileExt << endl;
 
+	qDebug() << urls ;
+
+	double scale1=75;
+	double scale2=100;
+
+	for (int i=0; i<urls.size(); i++){
+		QString qfolderNow = urls[i].toLocalFile();
+		QFileInfo folderInfo(qfolderNow);
+		if (!folderInfo.isDir()){
+			cout << "Folder not a directory, continuing." << endl;
+			continue;
+		}
+
+		string folderNow = qfolderNow.toStdString();
+
+
+
+
+		cout << "=== folderNow = " << folderNow << endl;
+
+		processFolder(folderNow, scale1);
+		processFolder(folderNow, scale2);
+
+		cout << endl;
+	}
 
 
 /*
@@ -1475,7 +1500,7 @@ void MainWindow::on_pushButton_clicked(){
 	emit sigTest();
 	return;
 */
-
+/*
 	vector<cv::Mat> matImages;
 	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_1.jpg"));
 	matImages.push_back(imread("/Users/tzaman/Dropbox/code/rti/doc/test/1_2.jpg"));
@@ -1508,7 +1533,7 @@ void MainWindow::on_pushButton_clicked(){
 
 	cout << "DEV MODE RETURNING!" << endl;
 	return;
-
+*/
 
 
 

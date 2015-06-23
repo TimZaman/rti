@@ -1,12 +1,12 @@
 # --------------------------------------------------------------------------------------#
-#           __               /\_ \                   __                                 
-#    _____ /\_\   __  _    __\//\ \    _____   _ __ /\_\    ____    ___ ___      __     
-#   /\ '__`\/\ \ /\ \/'\ /'__`\\ \ \  /\ '__`\/\`'__\/\ \  /',__\ /' __` __`\  /'__`\   
-#   \ \ \L\ \ \ \\/>  <//\  __/ \_\ \_\ \ \L\ \ \ \/ \ \ \/\__, `\/\ \/\ \/\ \/\ \L\.\_ 
-#    \ \ ,__/\ \_\/\_/\_\ \____\/\____\\ \ ,__/\ \_\  \ \_\/\____/\ \_\ \_\ \_\ \__/.\_\
-#     \ \ \/  \/_/\//\/_/\/____/\/____/ \ \ \/  \/_/   \/_/\/___/  \/_/\/_/\/_/\/__/\/_/
-#      \ \_\                             \ \_\                                          
-#       \/_/                              \/_/                                          
+#            _______  __   __    ______   _______  ___      _______  _______ 
+#           |       ||  | |  |  |      | |       ||   |    |       ||       |
+#           |_     _||  | |  |  |  _    ||    ___||   |    |    ___||_     _|
+#             |   |  |  |_|  |  | | |   ||   |___ |   |    |   |___   |   |  
+#             |   |  |       |  | |_|   ||    ___||   |___ |    ___|  |   |  
+#             |   |  |       |  |       ||   |___ |       ||   |      |   |  
+#             |___|  |_______|  |______| |_______||_______||___|      |___|  
+#  
 #   
 #      
 #                     _____                _____                    _____          
@@ -33,12 +33,12 @@
 #                                                                                  
 #
 # --------------------------------------------------------------------------------------#
-# (c) Tim Zaman, Pixelprimsa.
+# (c) Tim Zaman, TU Delft.
 #
 
 project( rti )
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 2.8)
 
 #add_definitions("-Wall")
 MESSAGE( STATUS "CMAKE_SYSTEM_VERSION: " ${CMAKE_SYSTEM_VERSION} " ON SYSTEM " ${CMAKE_SYSTEM_NAME} )
@@ -47,6 +47,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Else it won't find macports stuff
 SET(CMAKE_PREFIX_PATH "/opt/local/lib/cmake" ${CMAKE_PREFIX_PATH})
+SET(CMAKE_PREFIX_PATH "/opt/local/libexec/qt5-mac/lib/cmake/" ${CMAKE_PREFIX_PATH})
 SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /opt/local/lib /usr/local/lib) 
 
 # make local *.cmake available
@@ -92,7 +93,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 	add_definitions(${Qt5Widgets_DEFINITIONS})
 	set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 	QT5_WRAP_UI( DESKTOP_APP_UI_HDRS ./rti_mainwindow.ui )
-	QT5_WRAP_CPP( MOC_SRCS ${MOC_HDRS} ${UI_HDRS} rti.h photometricstereo.h trianglewindow.h openglwindow.h mainwidget.h geometryengine.h imagearea.h OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED )
+	QT5_WRAP_CPP( MOC_SRCS ${MOC_HDRS} ${UI_HDRS} rti.h photometricstereo.h openglwindow.h mainwidget.h geometryengine.h imagearea.h OPTIONS -DBOOST_TT_HAS_OPERATOR_HPP_INCLUDED )
 	#file (GLOB Resources ./qdarkstyle/style.qrc) 
 	file (GLOB Resources ./shaders.qrc ./textures.qrc ./icons.qrc ./qdarkstyle/style.qrc) 
 	QT5_ADD_RESOURCES (ResourceSources ${Resources}) 
@@ -147,7 +148,7 @@ endif()
 
 
 # Add an executable compiled from .cpp
-add_executable( rti main.cpp rti.cpp setcontrol2.cpp gpWrapper.cpp utils.cpp photometricstereo.cpp mainwidget.cpp geometryengine.cpp oclutils.cpp trianglewindow.cpp openglwindow.cpp imagearea.cpp ${DESKTOP_APP_UI_HDRS} ${ResourceSources} )#${CMAKE_CURRENT_BINARY_DIR}/svnversion.h)
+add_executable( rti main.cpp rti.cpp setcontrol2.cpp gpWrapper.cpp utils.cpp photometricstereo.cpp mainwidget.cpp geometryengine.cpp oclutils.cpp openglwindow.cpp imagearea.cpp ${DESKTOP_APP_UI_HDRS} ${ResourceSources} )#${CMAKE_CURRENT_BINARY_DIR}/svnversion.h)
 
 
 qt5_use_modules(rti Widgets Gui OpenGL Core  PrintSupport )

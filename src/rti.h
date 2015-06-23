@@ -109,7 +109,7 @@
 
 #include "mainwidget.h"
 
-#include "trianglewindow.h"
+//#include "trianglewindow.h"
 
 Q_DECLARE_METATYPE(cv::Mat)
 
